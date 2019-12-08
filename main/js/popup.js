@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const jiraInput = document.getElementById('jiraLink');
   chrome.storage.sync.get(['jiraLink'], function(result) {
     jiraInput.setAttribute('value', result.jiraLink);
+    showDownloadButton(result.jiraLink);
     if (!result.jiraLink) {
       body.style.gridTemplateRows = '50% 20% 30%';
       let info = document.createElement('div');
@@ -48,16 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const copy = document.getElementById('copy');
   copy.addEventListener('click', copyToClipboard);
 
-  const outputs = document.getElementById('outputs');
-  outputs.addEventListener('mouseenter', shadowOnHover);
-  function shadowOnHover(event) {
-    outputs.style.boxShadow = '0 10px 15px 0 rgba(0,0,0,0.24), 0 15px 25px 0 rgba(0,0,0,0.19)';
-  }
-  outputs.addEventListener('mouseleave', shadowOnOut);
-  function shadowOnOut(event) {
-    outputs.style.boxShadow = '0 4px 8px 0 rgba(0,0,0,0.24), 0 8px 14px 0 rgba(0,0,0,0.19)';
-  }
-
+  // *** drag-n-drop ***
   function dragenter(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -76,15 +68,42 @@ document.addEventListener('DOMContentLoaded', function() {
     parseCSV({ dropboxFile: file });
   }
 
+  function showDownloadButton(jiraLink) {
+    const linkTest = new RegExp(/^(?:http|https)(?::\/\/)(?:.)*(?:atlassian.net\/)/);
+    if (linkTest.test(jiraLink)) {
+      download.style.opacity = '1';
+      jiraInput.style.borderColor = '#999';
+    } else {
+      download.style.opacity = '0';
+      jiraInput.style.borderColor = 'red';
+    }
+  }
+
   function saveLinkToLocalStorage() {
     const jiraLink = this.value;
-    chrome.storage.sync.set({'jiraLink': jiraLink}, function() {
-      message('Jira Link saved');
-    });
+    chrome.storage.sync.set({'jiraLink': jiraLink});
     chrome.storage.sync.get(['jiraLink'], function(result) {
       jiraInput.setAttribute('value', result.jiraLink);
+      showDownloadButton(result.jiraLink);
     });
     setLabelForLink();
+  }
+
+  function setLabelForLink() {
+    chrome.storage.sync.get(['jiraLink'], function(result) {
+      const labelForLink = document.getElementById('labelForLink');
+      if (result.jiraLink) {
+        labelForLink.innerHTML = 'Ваша ссылка на Jira:';
+      } else {
+        labelForLink.innerHTML = 'Вставьте ссылку на Jira:';
+      }
+    });
+  }
+
+  function downloadCSV() {
+    chrome.storage.sync.get(['jiraLink'], function(result) {
+      window.open(result.jiraLink);
+    });
   }
 
   function parseCSV(event) {
@@ -112,9 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
       savedCopyOutput += `${data[i][issueKey]} - ${data[i][summary]}
 
 `;
-      chrome.storage.sync.set({'savedOutput': savedOutput, 'savedCopyOutput': savedCopyOutput }, function() {
-        message('Outputs saved');
-      });
+      chrome.storage.sync.set({'savedOutput': savedOutput, 'savedCopyOutput': savedCopyOutput });
       output.innerHTML = savedOutput;
       copyOutput.innerHTML = savedCopyOutput;
     }
@@ -124,21 +141,5 @@ document.addEventListener('DOMContentLoaded', function() {
     copyOutput.focus();
     copyOutput.select();
     document.execCommand('copy');
-  }
-
-  function setLabelForLink() {
-    chrome.storage.sync.get(['jiraLink'], function(result) {
-      if (result.jiraLink) {
-        document.getElementById('labelForLink').innerHTML = 'Ваша ссылка на Jira:';
-      } else {
-        document.getElementById('labelForLink').innerHTML = 'Вставьте ссылку на Jira:';
-      }
-    });
-  }
-
-  function downloadCSV() {
-    chrome.storage.sync.get(['jiraLink'], function(result) {
-      window.open(result.jiraLink);
-    });
   }
 }, false);
