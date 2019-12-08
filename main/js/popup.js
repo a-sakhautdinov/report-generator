@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // *** file input ***
   const inputFile = document.getElementById('upload');
   inputFile.addEventListener('change', parseCSV);
-  const dropbox = document.getElementById('dropbox');
+  const dropbox = document.getElementById('body');
   dropbox.addEventListener('dragenter', dragenter, false);
   dropbox.addEventListener('dragover', dragover, false);
   dropbox.addEventListener('drop', drop, false);
