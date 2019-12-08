@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     jiraInput.setAttribute('value', result.jiraLink);
     showDownloadButton(result.jiraLink);
     if (!result.jiraLink) {
-      body.style.gridTemplateRows = '50% 20% 30%';
+      body.style.gridTemplateRows = '35% 20% 45%';
       let info = document.createElement('div');
       info.className = 'info';
       info.innerHTML = 'Добро пожаловать в генератор репортов из CSV файлов.'
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const linkTest = new RegExp(/^(?:http|https)(?::\/\/)(?:.)*(?:atlassian.net\/)/);
     if (linkTest.test(jiraLink)) {
       download.style.opacity = '1';
-      jiraInput.style.borderColor = '#999';
+      jiraInput.style.borderColor = '#41AA58';
     } else {
       download.style.opacity = '0';
       jiraInput.style.borderColor = 'red';
@@ -93,9 +93,9 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get(['jiraLink'], function(result) {
       const labelForLink = document.getElementById('labelForLink');
       if (result.jiraLink) {
-        labelForLink.innerHTML = 'Ваша ссылка на Jira:';
+        labelForLink.innerHTML = 'Jira link:';
       } else {
-        labelForLink.innerHTML = 'Вставьте ссылку на Jira:';
+        labelForLink.innerHTML = 'Input Jira link:';
       }
     });
   }

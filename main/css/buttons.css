@@ -1,0 +1,44 @@
+.button {
+    transition: all 0.7s ease;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 14px;
+    background: linear-gradient(90deg, #A560CE 0%, rgba(255, 255, 255, 0) 100%), #7663EC;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: none;
+    width: 150px;
+    height: 30px;
+    color: #F0F0F0;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.buttonText {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 14px;
+    margin-top: -23px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: linear-gradient(90deg, #7663EC 0%, rgba(255, 255, 255, 0) 100%), #A560CE;
+}
+
+.margin-buttons {
+    margin-bottom: 30px;
+}
+
+#dropbox {
+    margin-left: 0;
+    cursor: pointer;
+}
+
+#copy {
+    margin-left: 250px;
+}
+
+#download {
+    margin-top: 5px;
+}

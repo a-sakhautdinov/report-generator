@@ -2,15 +2,17 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
-    <title>Report generator</title>
+    <title>Report Generator</title>
     <script src="../js/popup.js"></script>
     <script src="../js/papaparse.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/popup.css">
     <link rel="stylesheet" type="text/css" href="../css/input.css">
+    <link rel="stylesheet" type="text/css" href="../css/buttons.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
   </head>
   <body id="body">
   <div id="header">
-    <h1>Report generator
+    <h1>Report Generator
       <a target="_blank" rel="noopener noreferrer" href="https://github.com/a-sakhautdinov/report-generator">
         <img class="icon" title="Жду ваши реквесты!" src="../githubIcon.png" alt="github"/>
       </a>
@@ -18,18 +20,21 @@
     <p>Генератор репортов из CSV файлов</p>
   </div>
   <div id="inputs">
-    <div class="row">
+    <div class="row margin-buttons">
       <div class="column">
-        <label id="labelForLink" for="jiraLink">Вставьте ссылку на Jira:</label>
+        <label id="labelForLink" for="jiraLink">Input Jira link:</label>
         <input id="jiraLink" type="text">
       </div>
       <button class="button" id="download">Скачать CSV</button>
     </div>
     <div class="row">
-      <div id="dropbox">
+      <div id="dropbox" class="button">
         <input id="upload" class="custom-file-input" accept=".csv" type="file">
+        <div class="buttonText">
+          Upload CSV
+        </div>
       </div>
-      <button class="button" id="copy">Скопировать в буфер обмена</button>
+      <button class="button" id="copy">Copy to Clipboard</button>
     </div>
     <label for="copyOutput"></label>
     <textarea id="copyOutput" style="opacity: 0"></textarea>
