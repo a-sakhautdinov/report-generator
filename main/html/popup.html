@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <title>Report generator</title>
+    <script src="../js/popup.js"></script>
+    <script src="../js/papaparse.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/popup.css">
+    <link rel="stylesheet" type="text/css" href="../css/input.css">
+  </head>
+  <body id="body">
+  <div id="header">
+    <h1>Report generator</h1>
+    <p>Генератор репортов из CSV файлов</p>
+  </div>
+  <div id="inputs">
+    <div class="row">
+      <div class="column">
+        <label id="labelForLink" for="jiraLink">Вставьте ссылку на Jira:</label>
+        <input id="jiraLink" type="text">
+      </div>
+      <button class="button" id="download">Скачать CSV</button>
+    </div>
+    <div class="row">
+      <div id="dropbox">
+        <input id="upload" class="custom-file-input" accept=".csv" type="file">
+      </div>
+      <button class="button" id="copy">Скопировать в буфер обмена</button>
+    </div>
+    <label for="copyOutput"></label>
+    <textarea id="copyOutput" style="opacity: 0"></textarea>
+  </div>
+  <div id="outputs">
+    <p id="output"></p>
+  </div>
+  </body>
+</html>
