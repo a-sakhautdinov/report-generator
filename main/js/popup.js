@@ -141,5 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
     copyOutput.focus();
     copyOutput.select();
     document.execCommand('copy');
+    copy.innerHTML = 'Copied!';
+    setTimeout(() => copy.innerHTML = 'Copy to Clipboard', 2000);
   }
 }, false);
