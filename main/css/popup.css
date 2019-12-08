@@ -1,3 +1,8 @@
+#header {
+    grid-area: header;
+    text-align: center;
+}
+
 #body {
     margin: 0;
     padding: 0;
@@ -16,11 +21,6 @@
             "outputs outputs outputs";
 }
 
-#header {
-    grid-area: header;
-    text-align: center;
-}
-
 #list {
     grid-area: list;
 }
@@ -37,11 +37,19 @@
     grid-area: outputs;
     grid-column-start: 2;
     width: 80%;
-    padding: 5px;
+    padding: 0 5px;
     margin-bottom: 15px;
     background: #FFFFFF;
     height: max-content;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.24), 0 3px 4px 0 rgba(0,0,0,0.19);
+    -webkit-transition: all 0.5s ease;;
+    -moz-transition: all 0.5s ease;;
+    -o-transition: all 0.5s ease;;
+    transition: all 0.5s ease;
+}
+
+#outputs:hover {
+    box-shadow: 0 8px 14px 0 rgba(0,0,0,0.24), 0 16px 25px 0 rgba(0,0,0,0.19);
 }
 
 #jiraLink {
@@ -90,7 +98,20 @@
 }
 
 .info {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
     margin: 0 15px 0 5px;
     background: #FFFFCC;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.24), 0 4px 8px 0 rgba(0,0,0,0.19);
+}
+
+.info:hover {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.24), 0 8px 12px 0 rgba(0,0,0,0.19);
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
 }

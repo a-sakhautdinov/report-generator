@@ -2,8 +2,10 @@
     visibility: hidden;
 }
 .custom-file-input::before {
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
     content: 'Выбрать CSV';
     display: inline-block;
     background: white;
@@ -21,7 +23,4 @@
 .custom-file-input:hover::before {
     border-color: black;
     background-color: #e7e7e7;
-}
-.custom-file-input:active::before {
-    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
