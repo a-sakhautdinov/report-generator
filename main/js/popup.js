@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // *** jira link input ***
   const jiraInput = document.getElementById('jiraLink');
   chrome.storage.sync.get(['jiraLink'], function(result) {
-    jiraInput.setAttribute('value', result.jiraLink);
+    jiraInput.setAttribute('value', result.jiraLink || '');
     showDownloadButton(result.jiraLink);
     if (!result.jiraLink) {
       body.style.gridTemplateRows = '35% 20% 45%';
@@ -30,17 +30,23 @@ document.addEventListener('DOMContentLoaded', function() {
   jiraInput.addEventListener('input', saveLinkToLocalStorage);
   setLabelForLink();
   // *** output ***
+  const outputs = document.getElementById('outputs');
   const output = document.getElementById('output');
   let savedOutput = '';
   chrome.storage.sync.get(['savedOutput'], function(result) {
     savedOutput = result.savedOutput;
-    output.innerHTML = savedOutput;
+    if (savedOutput) {
+      output.innerHTML = savedOutput;
+      outputs.style.opacity = '1';
+    } else {
+      outputs.style.opacity = '0';
+    }
   });
   const copyOutput = document.getElementById('copyOutput');
   let savedCopyOutput = '';
   chrome.storage.sync.get(['savedCopyOutput'], function(result) {
     savedCopyOutput = result.savedCopyOutput;
-    copyOutput.innerHTML = savedCopyOutput;
+    copyOutput.innerHTML = savedCopyOutput || '';
   });
   // *** download ***
   const download = document.getElementById('download');
@@ -133,6 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
 `;
       chrome.storage.sync.set({'savedOutput': savedOutput, 'savedCopyOutput': savedCopyOutput });
       output.innerHTML = savedOutput;
+      outputs.style.opacity = '1';
       copyOutput.innerHTML = savedCopyOutput;
     }
   }
