@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function showDownloadButton(jiraLink) {
-    const linkTest = new RegExp(/^(?:http|https)(?::\/\/)(?:.)*(?:atlassian.net\/)/);
+    const linkTest = new RegExp(/^(?:http|https)(?::\/\/)(?:.)*(?:atlassian.net|olegb.ru\/)/);
     if (linkTest.test(jiraLink)) {
       download.style.opacity = '1';
       jiraInput.style.borderColor = '#41AA58';
@@ -115,33 +115,59 @@ document.addEventListener('DOMContentLoaded', function() {
   function parseCSV(event) {
     const file = event.dropboxFile ? event.dropboxFile : inputFile.files[0];
     Papa.parse(file, {
-      complete: results => updateOutputs({ header: results.data[0], data: results.data }),
+      complete: results => updateOutputs({ headers: results.meta.fields, data: results.data }),
+      header: true,
+      skipEmptyLines: true,
     });
   }
 
   function updateOutputs(info) {
-    const { header, data } = info;
-    let issueKey = header.indexOf('Issue key');
-    let summary = header.indexOf('Summary');
-    if (issueKey === -1) {
-      issueKey = header.indexOf('Ключ задачи');
-      summary = header.indexOf('Pезюме');
-    }
-    const now = new Date();
-    savedOutput = `Отчёт за ${now.getDate()}.${now.getMonth()}:<br/>`;
-    savedCopyOutput = '';
-    for (let i = 1; i < data.length - 1; ++i) {
-      // parse for html
-      savedOutput += `${data[i][issueKey]} - ${data[i][summary]}<br/><br/>`;
-      // parse for copy
-      savedCopyOutput += `${data[i][issueKey]} - ${data[i][summary]}
+    const { headers, data } = info;
 
-`;
-      chrome.storage.sync.set({'savedOutput': savedOutput, 'savedCopyOutput': savedCopyOutput });
-      output.innerHTML = savedOutput;
-      outputs.style.opacity = '1';
-      copyOutput.innerHTML = savedCopyOutput;
-    }
+    if (!data.length) return;
+
+    const language = getLanguage(headers);
+
+    // skip custom fields for now (why? idk)
+    const skipFilter = SKIP_FILTERS[language];
+    const all_fields = Object.keys(data[0]).filter(field => !field.match(skipFilter));
+    all_fields.sort((field, nextField) => {
+      fieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === field)[0];
+      fieldWeight = fieldObj
+        ? fieldObj.weight
+        : DEFAULT_FIELDS.length + 1;
+      nextFieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === nextField)[0];
+      nextFieldWeight = nextFieldObj
+        ? nextFieldObj.weight
+        : DEFAULT_FIELDS.length + 1;
+      if (fieldWeight > nextFieldWeight) return 1;
+      if (fieldWeight < nextFieldWeight) return -1;
+      return 0;
+    });
+
+    // hack here
+    // we can add user sort and fields adding
+    selectedFields = all_fields.slice(0, DEFAULT_FIELDS.length);
+
+    const now = new Date();
+    savedOutput = `Отчёт за ${now.getDate()}.${now.getMonth() + 1}:<br/>`;
+    savedCopyOutput = '';
+    data.map((task) => {
+      // parse for html
+      savedOutput += `${selectedFields.map(field => task[field]).join(' - ')}<br/><br/>`;
+      // parse for copy
+      savedCopyOutput += `${selectedFields.map(field => task[field]).join(' - ')}\n\n`;
+    });
+    chrome.storage.sync.set({'savedOutput': savedOutput, 'savedCopyOutput': savedCopyOutput });
+    output.innerHTML = savedOutput;
+    outputs.style.opacity = '1';
+    copyOutput.innerHTML = savedCopyOutput;
+  }
+
+  function getLanguage(headers) {
+    if (headers.includes('Summary')) return LANGUAGES.EN;
+    if (headers.includes('Pезюме')) return LANGUAGES.RU_1;
+    if (headers.includes('Тема')) return LANGUAGES.RU_2;
   }
 
   function copyToClipboard() {
