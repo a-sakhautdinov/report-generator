@@ -132,11 +132,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const skipFilter = SKIP_FILTERS[language];
     const all_fields = Object.keys(data[0]).filter(field => !field.match(skipFilter));
     all_fields.sort((field, nextField) => {
-      fieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === field)[0]
+      fieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === field)[0];
       fieldWeight = fieldObj
         ? fieldObj.weight
         : DEFAULT_FIELDS.length + 1;
-      nextFieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === nextField)[0]
+      nextFieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === nextField)[0];
       nextFieldWeight = nextFieldObj
         ? nextFieldObj.weight
         : DEFAULT_FIELDS.length + 1;
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
       savedOutput += `${selectedFields.map(field => task[field]).join(' - ')}<br/><br/>`;
       // parse for copy
       savedCopyOutput += `${selectedFields.map(field => task[field]).join(' - ')}\n\n`;
-    })
+    });
     chrome.storage.sync.set({'savedOutput': savedOutput, 'savedCopyOutput': savedCopyOutput });
     output.innerHTML = savedOutput;
     outputs.style.opacity = '1';
