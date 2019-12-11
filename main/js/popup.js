@@ -132,12 +132,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const skipFilter = SKIP_FILTERS[language];
     const all_fields = Object.keys(data[0]).filter(field => !field.match(skipFilter));
     all_fields.sort((field, nextField) => {
-      fieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === field)[0];
-      fieldWeight = fieldObj
+      let fieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === field)[0];
+      let fieldWeight = fieldObj
         ? fieldObj.weight
         : DEFAULT_FIELDS.length + 1;
-      nextFieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === nextField)[0];
-      nextFieldWeight = nextFieldObj
+      let nextFieldObj = DEFAULT_FIELDS.filter(df => df.name[language] === nextField)[0];
+      let nextFieldWeight = nextFieldObj
         ? nextFieldObj.weight
         : DEFAULT_FIELDS.length + 1;
       if (fieldWeight > nextFieldWeight) return 1;
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // hack here
     // we can add user sort and fields adding
-    selectedFields = all_fields.slice(0, DEFAULT_FIELDS.length);
+    let selectedFields = all_fields.slice(0, DEFAULT_FIELDS.length);
 
     const now = new Date();
     savedOutput = `Отчёт за ${now.getDate()}.${now.getMonth() + 1}:<br/>`;
