@@ -150,14 +150,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedFields = all_fields.slice(0, DEFAULT_FIELDS.length);
 
     const now = new Date();
-    savedOutput = `Отчёт за ${now.getDate()}.${now.getMonth() + 1}:<br/>`;
-    savedCopyOutput = '';
-    data.map((task) => {
-      // parse for html
-      savedOutput += `${selectedFields.map(field => task[field]).join(' - ')}<br/><br/>`;
-      // parse for copy
-      savedCopyOutput += `${selectedFields.map(field => task[field]).join(' - ')}\n\n`;
-    });
+    let parsedTasks = data.map(task => `${selectedFields.map(field => task[field]).join(' - ')}`);
+    savedOutput =`Отчёт за ${now.getDate()}.${now.getMonth() + 1}:<br/><br/>` + parsedTasks.join('<br/><br/>');
+    savedCopyOutput = parsedTasks.join('\n\n');
+
     chrome.storage.sync.set({'savedOutput': savedOutput, 'savedCopyOutput': savedCopyOutput });
     output.innerHTML = savedOutput;
     outputs.style.opacity = '1';
