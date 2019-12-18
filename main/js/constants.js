@@ -16,6 +16,15 @@ const SUMMARY = {
   },
 };
 
+const STATUS = {
+  weight: 3,
+  name: {
+    EN: 'Status',
+    RU_1: 'Статус',
+    RU_2: 'Статус',
+  },
+};
+
 const DEFAULT_FIELDS = [
   ISSUE_KEY,
   SUMMARY,
@@ -42,3 +51,9 @@ const SKIP_FILTERS = {
   RU_1: new RegExp(/^Пользовательское поле \((.*?)\)$/),
   RU_2: new RegExp(/^Пользовательское поле \((.*?)\)$/),
 };
+
+const IN_PROGRESS_STATUSES = [
+  'In Progress', 
+  'В работе',
+  'Need Adjustments',
+];
