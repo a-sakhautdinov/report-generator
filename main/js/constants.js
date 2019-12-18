@@ -53,5 +53,7 @@ const SKIP_FILTERS = {
 };
 
 const IN_PROGRESS_STATUSES = [
-  'In Progress', 'В работе',
+  'In Progress', 
+  'В работе',
+  'Need Adjustments',
 ];
