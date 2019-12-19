@@ -152,7 +152,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedFields = all_fields.slice(0, DEFAULT_FIELDS.length);
 
     const now = new Date();
-    let parsedTasks = data.map(task => `${selectedFields.map(field => task[field]).join(' - ')}`);
+    let parsedTasks = data.map((task) => {
+      text = `${selectedFields.map(field => task[field]).join(' - ')}`;
+      if (IN_PROGRESS_STATUSES.includes(task[STATUS.name[language]])) text += ' - wip';
+      return text;
+    });
     savedOutput =`Отчёт за ${now.getDate()}.${now.getMonth() + 1}:<br/><br/>` + parsedTasks.join('<br/><br/>');
     savedCopyOutput = parsedTasks.join('\n\n');
 
