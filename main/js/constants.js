@@ -42,3 +42,5 @@ const SKIP_FILTERS = {
   RU_1: new RegExp(/^Пользовательское поле \((.*?)\)$/),
   RU_2: new RegExp(/^Пользовательское поле \((.*?)\)$/),
 };
+
+export { ISSUE_KEY, ALL_FIELDS, DEFAULT_FIELDS, LANGUAGES, NAMES, SKIP_FILTERS, SUMMARY };
