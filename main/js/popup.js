@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const now = new Date();
     let parsedTasks = data.map((task) => {
-      text = `${selectedFields.map(field => task[field]).join(' - ')}`;
+      let text = `${selectedFields.map(field => task[field]).join(' - ')}`;
       if (IN_PROGRESS_STATUSES.includes(task[STATUS.name[language]])) text += ' - wip';
       return text;
     });
